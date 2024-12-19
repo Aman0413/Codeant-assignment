@@ -3,8 +3,50 @@ import gitlab from "../assets/Icon.png";
 import sidelogo from "../assets/Subtract.png";
 import group from "../assets/Group 4.png";
 import { FaArrowUp } from "react-icons/fa6";
+import key from "../assets/key.png";
+import { useState } from "react";
+import github from "../assets/image 1.png";
+import bitbucket from "../assets/Icon (1).png";
+import azure from "../assets/Icon (2).png";
 
 function Signin() {
+  const [selected, setSelected] = useState("SAAS");
+
+  const selfHostedData = [
+    {
+      id: 1,
+      icon: gitlab,
+      title: "Self Hosted GitLab",
+    },
+    {
+      id: 2,
+      icon: key,
+      title: "Sign in with SSO",
+    },
+  ];
+
+  const saasData = [
+    {
+      id: 1,
+      icon: github,
+      title: "Sign in with GitHub",
+    },
+    {
+      id: 2,
+      icon: bitbucket,
+      title: "Sign in with Bitbucket",
+    },
+    {
+      id: 3,
+      icon: azure,
+      title: "Sign in with Azure DevOps",
+    },
+    {
+      id: 4,
+      icon: gitlab,
+      title: "Sign in with GitLab",
+    },
+  ];
   return (
     <div className="signin w-full flex h-screen  ">
       <div className="right w-full hidden h-full md:w-[50%] md:flex justify-center items-center p-1  border rounded-lg relative ">
@@ -60,7 +102,7 @@ function Signin() {
         </div>
       </div>
 
-      <div className="bg-[#FAFAFA] right w-full h-full md:w-[50%]  p-1  border rounded-lg ">
+      <div className="bg-[#FAFAFA] right w-full flex justify-center items-center  h-full md:w-[50%]  p-1  border rounded-lg ">
         <div className="bg-[#FAFAFA]  w-full h-full flex flex-col justify-center items-center">
           <div className="bg-white w-[90%] flex flex-col p-2 border rounded-lg h-[80%] justify-center items-center">
             <div className="flex flex-col items-center space-y-5">
@@ -73,28 +115,60 @@ function Signin() {
               </h2>
             </div>
 
-            <div className="w-full flex border  rounded-md my-5 cursor-pointer">
-              <button className="bg-gray-50 w-full text-center p-3 rounded-md">
+            <div className="relative w-full flex border rounded-md my-5 cursor-pointer">
+              {/* Sliding Indicator */}
+              <div
+                className={`absolute top-0 h-full w-1/2 bg-blue-primary rounded-md transition-all duration-500 ease-in-out ${
+                  selected === "SAAS" ? "left-0" : "left-1/2"
+                }`}
+              ></div>
+
+              {/* Buttons */}
+              <button
+                className={`w-full text-center p-3 font-medium z-10 ${
+                  selected === "SAAS" ? "text-white" : "text-black-primary"
+                }`}
+                onClick={() => setSelected("SAAS")}
+              >
                 SAAS
               </button>
-              <button className="bg-blue-primary w-full text-center p-3 rounded-md text-white">
+              <button
+                className={`w-full text-center p-3 font-medium z-10 ${
+                  selected === "Self Hosted"
+                    ? "text-white"
+                    : "text-black-primary"
+                }`}
+                onClick={() => setSelected("Self Hosted")}
+              >
                 Self Hosted
               </button>
             </div>
+
             <div className="w-full h-[1px] bg-gray-200 my-4"></div>
-            <div className=" w-full mt-4 flex flex-col space-y-3 justify-evenly items-center">
-              <button className="cursor-pointer  border w-[80%] p-2 rounded-md flex justify-center items-center space-x-3 ">
-                <img src={gitlab} alt="" />
-                <h4>Self Hosted GitLab</h4>
-              </button>
-              <button className="cursor-pointer  border w-[80%] p-2 rounded-md flex justify-center items-center space-x-3 ">
-                <img src={gitlab} alt="" />
-                <h4>Self Hosted GitLab</h4>
-              </button>
-              <button className="cursor-pointer  border w-[80%] p-2 rounded-md flex justify-center items-center space-x-3 ">
-                <img src={gitlab} alt="" />
-                <h4>Self Hosted GitLab</h4>
-              </button>
+            <div className=" w-full mt-4 flex flex-col space-y-3 justify-evenly items-center font-medium">
+              {selected === "SAAS"
+                ? saasData.map((data) => {
+                    return (
+                      <button
+                        key={data.id}
+                        className="cursor-pointer  border w-[80%] p-2 rounded-md flex justify-center items-center space-x-3 "
+                      >
+                        <img src={data.icon} alt="" />
+                        <h4>{data.title}</h4>
+                      </button>
+                    );
+                  })
+                : selfHostedData.map((data) => {
+                    return (
+                      <button
+                        key={data.id}
+                        className="cursor-pointer  border w-[80%] p-2 rounded-md flex justify-center items-center space-x-3 "
+                      >
+                        <img src={data.icon} alt="" />
+                        <h4>{data.title}</h4>
+                      </button>
+                    );
+                  })}
             </div>
           </div>
           <p className="text-gray-500 text-sm mt-5">
